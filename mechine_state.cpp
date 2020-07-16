@@ -1,4 +1,8 @@
+#include "mechine_state.h"
 #include "ArduinoJson-v6.9.1.h"
+
+#define COMMAND_SIZE 64
+unsigned long interval = 10;
 
 //状态机
 StaticJsonDocument<COMMAND_SIZE> doc;
@@ -124,7 +128,7 @@ StateType readSerialJSON(StateType SmState){
       int newDriveThresh = doc["param"];
       if ((newDriveThresh >= 0) && (newDriveThresh <= 100))
       {
-        driveThresh = newDriveThresh;
+//        driveThresh = newDriveThresh;
         Serial.println("{\"result\":\"ok\"}");
       }
       else
@@ -139,7 +143,7 @@ StateType readSerialJSON(StateType SmState){
       int newBrakeThresh = doc["param"];
       if ((newBrakeThresh >= 0) && (newBrakeThresh <= 100))
       {
-        brakeThresh = newBrakeThresh;
+//        brakeThresh = newBrakeThresh;
         Serial.println("{\"result\":\"ok\"}");
       }
       else
@@ -157,30 +161,30 @@ StateType readSerialJSON(StateType SmState){
       
         if (strcmp(param, loaded)==0){
           //load is on
-          digitalWrite_supervised(loadLed,HIGH); 
-          digitalWrite_supervised(loadPin,HIGH); 
-          loadMessage(HIGH);
-          brakeStop = false;
+//          digitalWrite_supervised(loadLed,HIGH); 
+//          digitalWrite_supervised(loadPin,HIGH); 
+          //loadMessage(HIGH);
+          //brakeStop = false;
 
         }
         else if (strcmp(param, unloaded)==0){
           //load is off
-          digitalWrite_supervised(loadLed,LOW); 
-          digitalWrite_supervised(loadPin,LOW); 
-          loadMessage(LOW);
-          brakeStop = false;
+//          digitalWrite_supervised(loadLed,LOW); 
+//          digitalWrite_supervised(loadPin,LOW); 
+//          loadMessage(LOW);
+//          brakeStop = false;
         }
         else if (strcmp(param, brake)==0){
           //load is off - else short circuit!
-          digitalWrite_supervised(loadLed,LOW); 
-          digitalWrite_supervised(loadPin,LOW); 
-          loadMessage(LOW);
-          brakeStop = true;
+//          digitalWrite_supervised(loadLed,LOW); 
+//          digitalWrite_supervised(loadPin,LOW); 
+//          loadMessage(LOW);
+//          brakeStop = true;
         }        
         Serial.print(",\"loaded\":");
-        Serial.print(digitalRead_supervised(loadPin));
+//        Serial.print(digitalRead_supervised(loadPin));
         Serial.print(",\"brake\":");
-        Serial.print(brakeStop);
+ //       Serial.print(brakeStop);
         Serial.print("}");
         SmState = STATE_STOPPED;
       }
@@ -214,7 +218,7 @@ StateType readSerialJSON(StateType SmState){
         int newStartDelay = doc["param"];
         if ((newStartDelay >= 0) && (newStartDelay <= 500))
         {
-          startDelay = newStartDelay;
+//          startDelay = newStartDelay;
 
           Serial.println("{\"result\":\"starting\"}");
           SmState = STATE_START;
@@ -236,6 +240,7 @@ StateType readSerialJSON(StateType SmState){
   } //if bytes available
   return SmState;
 }
+bool debug = false;
 void Sm_Run(void)
 {
   if (SmState < NUM_STATES)

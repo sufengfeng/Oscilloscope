@@ -1,5 +1,5 @@
 #include <FlexiTimer2.h>
-
+#include "pin_init.h"
 const int LED = LED_BUILTIN;
 
 void TimerHandle()
@@ -7,6 +7,8 @@ void TimerHandle()
     static boolean output=HIGH;
     digitalWrite(LED,output);
     output=!output;
+//    int sensorValue = 
+//    Serial.println(sensorValue); 
 }
 //设置定时器基准为125ms
 void InitTimer(){
