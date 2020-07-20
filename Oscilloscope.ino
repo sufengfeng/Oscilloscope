@@ -5,11 +5,22 @@
 
 void setup() {
   // initialize serial communications at 9600 bps:
-  Serial.begin(9600);
+  
   InitTimer();    //初始化定时器
+  setup_oled();         
+  Serial.begin(9600);//保证串口必须可用
+  setup_wave(); 
 }
+int analogOutPin=A14;
 void loop() {
-  Serial.println("running...");
-  //OledTest();
+//  int sensorValue = analogRead(A0);
+//  Serial.println(sensorValue);
+  
+//  int outputValue = map(sensorValue, 0, 1023, 0, 255);
+//  analogWrite(analogOutPin, outputValue);
+  //loop_oled();    //oled循环显示
+  
+  loopwave() ;
+  delay(10);        // delay in between reads for stability
 }
 

@@ -53,13 +53,11 @@ int cs=12;//定义数字接口12
 
 #define OLED_CMD  0  //写命令
 #define OLED_DATA 1 //写数据
-#define u8 uint8_t
-#define u32 uint32_t
 
 uint8_t OLED_GRAM[128][8];//将要显示的缓存内容
+
+
 void OLED_WR_Byte(uint8_t dat,uint8_t cmd);
-
-
 //反显函数
 void OLED_ColorTurn(u8 i)
 {
@@ -420,15 +418,18 @@ void OLED_Init(void)
   OLED_WR_Byte(0xAF,OLED_CMD);
   OLED_Clear();
 }
-
-void OledTest()
+//oled初始化
+void setup_oled()
 {
-  uint8_t t=' ';
+  
   OLED_Init();
   OLED_ColorTurn(0);//0正常显示 1反色显示
   OLED_DisplayTurn(0);//0正常显示 1翻转180度显示
-  while(1)
-  {
+}
+//oled更新事件
+void loop_oled()
+{
+    static uint8_t t=' ';
     OLED_ShowPicture(0,0,128,8,BMP1);
     delay(500);
     OLED_Clear();
@@ -462,7 +463,6 @@ void OledTest()
     OLED_ShowString(0,28,"ABC",24);//12*24 “ABC”
     OLED_Refresh();
     delay(500);
-  }
 }
 
 

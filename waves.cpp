@@ -6,7 +6,7 @@ int wavedigital[255];
 //定义图形周期
 int cycle;
 //波形模式切换按键
-const int button = 12;
+const int button = 0;
 //波形常数
 volatile int wave = 0;
 
@@ -75,12 +75,13 @@ void waveSelect() {
   wave++;
   if(wave == 4)
     {
-      wave = 0;
+     
     }
      wagegen();
     delay(3000);
 }
-void setup2() 
+//波形初始化
+void setup_wave() 
 {  
      Serial.begin(9600);
    
@@ -97,13 +98,15 @@ void setup2()
      pinMode(6, OUTPUT);
      pinMode(7, OUTPUT); 
     //改变输出信号频率调整完电位器后复位后生效
-     cycle=int(analogRead(A0)/10)+1;
+     //cycle=int(analogRead(A0)/10)+1;
+     cycle=10000;
      //默认输出正玄波
+      wave = 0;
      wagegen();
 } 
 
-
-void loop2() 
+//循环产生波形
+void loopwave() 
 { 
      if(digitalRead(button)==1)
      {
@@ -114,9 +117,9 @@ void loop2()
    
      for (int i=0;i<255;i++) 
      { 
-          PORTD=wavedigital[i]; 
+          analogWrite(A14, wavedigital[i]);
          //调试各个波形的值
-         //  Serial.println( wavedigital[i]);
+          Serial.println( wavedigital[i]);
          //调试波形周期
           delayMicroseconds(cycle);
          // delayMicroseconds(10);

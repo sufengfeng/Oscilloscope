@@ -7,7 +7,7 @@ void TimerHandle()
     static boolean output=HIGH;
     digitalWrite(LED,output);
     output=!output;
-//    int sensorValue = 
+//    int sensorValue =  analogRead(A0);
 //    Serial.println(sensorValue); 
 }
 //设置定时器基准为125ms

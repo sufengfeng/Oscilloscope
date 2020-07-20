@@ -1,5 +1,10 @@
 #ifndef __OLED__H
 #define __OLED__H
 #include "Arduino.h"
-void OledTest();
+
+#define u8 uint8_t
+#define u32 uint32_t
+void setup_oled();
+extern void loop_oled();
+
 #endif
