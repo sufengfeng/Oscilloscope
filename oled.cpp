@@ -467,29 +467,74 @@ void loop_oled_test()
     OLED_Refresh();
     delay(500);
 }
-static void  ShowStateWelcom()   //欢迎界面
+#define SPACEY 10
+static void  ShowStarteWelcom()   //欢迎界面
 {
-  
+    OLED_Clear();
+    OLED_ShowString(24,0,"Welcome",24);//6*12 “ABC”
+    OLED_ShowString(0,48,"Press button to start",12);
+    OLED_Refresh();
+    
 }
 static void  ShowSelectMenue01()            //菜单01
 {
-  
+  OLED_Clear();
+    OLED_ShowString(3,0,"Selection Menu",16);
+      OLED_ShowString(5,SPACEY+4,"Osci Mode        <--",12);
+      OLED_ShowString(5,SPACEY*2+4,"FuncGenMode",12);
+        OLED_ShowString(10,SPACEY*3+4,"*square signal",12);
+        OLED_ShowString(10,SPACEY*4+4,"*Triangle signal",12);
+        OLED_ShowString(10,SPACEY*5+4,"*Sin signal",12);
+
+    OLED_Refresh();
 }
 static void ShowSelectMenue02()            //菜单02
 {
-  
+  OLED_Clear();
+    OLED_ShowString(3,0,"Selection Menu",16);
+      OLED_ShowString(5,SPACEY+4,"Osci Mode",12);
+      OLED_ShowString(5,SPACEY*2+4,"FuncGenMode",12);
+        OLED_ShowString(10,SPACEY*3+4,"*square signal  <--",12);
+        OLED_ShowString(10,SPACEY*4+4,"*Triangle signal",12);
+        OLED_ShowString(10,SPACEY*5+4,"*Sin signal",12);
+//      OLED_ShowString(10,SPACEY*6+4,"Login Analyser",12);
+    OLED_Refresh();
 }
 static void ShowSelectMenue03()            //菜单03
 {
-  
+  OLED_Clear();
+    OLED_ShowString(3,0,"Selection Menu",16);
+      OLED_ShowString(5,SPACEY+4,"Osci Mode",12);
+      OLED_ShowString(5,SPACEY*2+4,"FuncGenMode",12);
+        OLED_ShowString(10,SPACEY*3+4,"*square signal",12);
+        OLED_ShowString(10,SPACEY*4+4,"*Triangle signal<--",12);
+        OLED_ShowString(10,SPACEY*5+4,"*Sin signal",12);
+//      OLED_ShowString(10,SPACEY*6+4,"Login Analyser",12);
+    OLED_Refresh();
 }
 static void ShowSelectMenue04()            //菜单04
 {
-  
+  OLED_Clear();
+    OLED_ShowString(3,0,"Selection Menu",16);
+      OLED_ShowString(5,SPACEY+4,"FuncGenMode",12);
+        OLED_ShowString(10,SPACEY*2+4,"*square signal",12);
+        OLED_ShowString(10,SPACEY*3+4,"*Triangle signal",12);
+        OLED_ShowString(10,SPACEY*4+4,"*Sin signal     <--",12);
+      OLED_ShowString(5,SPACEY*5+4,"Login Analyser",12);
+//      OLED_ShowString(10,SPACEY*6+4,"",12);
+    OLED_Refresh();
 }
 static void ShowSelectMenue05()            //菜单05
 {
-  
+  OLED_Clear();
+    OLED_ShowString(3,0,"Selection Menu",16);
+      OLED_ShowString(5,SPACEY+4,"FuncGenMode",12);
+        OLED_ShowString(10,SPACEY*2+4,"*square signal",12);
+        OLED_ShowString(10,SPACEY*3+4,"*Triangle signal",12);
+        OLED_ShowString(10,SPACEY*4+4,"*Sin signal",12);
+      OLED_ShowString(5,SPACEY*5+4,"Login Analyser   <--",12);
+//      OLED_ShowString(10,SPACEY*6+4,"",12);
+    OLED_Refresh();
 }
 
 static void ShowOsziMode()       //示波器状态
@@ -510,7 +555,7 @@ static void showErrorWindow(){
 
 void loop_oled(){
   switch(g_nCurrentState){
-      case  StateWelcom:ShowStateWelcom();break;
+      case  StateWelcom:ShowStarteWelcom();break;
       case SelectMenue01:ShowSelectMenue01();break;
       case SelectMenue02:ShowSelectMenue02();break;
       case SelectMenue03:ShowSelectMenue03();break;
