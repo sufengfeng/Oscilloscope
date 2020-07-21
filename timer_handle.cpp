@@ -25,8 +25,10 @@ void TimerHandle()
     loopwave() ;//更新波形数据
     
   }
-  if(g_bEnableLogicAn){
-    digitalRead(DIGITAL_PIN)  ;
+  if(g_bEnableLogicAn){     //使能逻辑分析仪   小端模式，高位在前，低位在后
+    int value=digitalRead(DIGITAL_PIN);
+    g_nLogicAnValue = g_nLogicAnValue<1;
+    g_nLogicAnValue = g_nLogicAnValue+value;
   }
 }
 //设置定时器基准为1/9600ms
