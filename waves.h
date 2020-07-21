@@ -3,4 +3,5 @@
 #include "Arduino.h"
 void loopwave() ;
 void setup_wave() ;
+void UpdateWaveDigital();
 #endif

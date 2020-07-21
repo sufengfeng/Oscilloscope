@@ -5,21 +5,22 @@ const int LED = LED_BUILTIN;
 
 void UpdateLED(){
   static boolean output=HIGH;
-    digitalWrite(LED,output);  
-    static int counter=0;
-    counter++;
-    if(counter>25){
-      counter=0;
-      output=!output;  
-    }
+  digitalWrite(LED,output);  
+  static int counter=0;
+  counter++;
+  if(counter>25){
+    counter=0;
+    output=!output;  
+  }
 }
-
+int g_nAinValue=0;//  AIn输入信号，用于示波器显示当前值
 void TimerHandle()
 {
     UpdateLED();   
 //    int sensorValue =  analogRead(A0);
 //    Serial.println(sensorValue); 
     loopwave() ;//更新波形数据
+
 }
 //设置定时器基准为20ms
 void InitTimer(){

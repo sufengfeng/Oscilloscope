@@ -29,6 +29,8 @@
 //******************************************************************************/
 #include "font.h"
 #include "oled.h"
+#include "mechine_state.h"
+#include "global_param.h"
 int scl=8;//定义数字接口8
 int sda=9;//定义数字接口9
 int res=10;//定义数字接口10
@@ -427,7 +429,7 @@ void setup_oled()
   OLED_DisplayTurn(0);//0正常显示 1翻转180度显示
 }
 //oled更新事件
-void loop_oled()
+void loop_oled_test()
 {
     static uint8_t t=' ';
     OLED_ShowPicture(0,0,128,8,BMP1);
@@ -465,5 +467,65 @@ void loop_oled()
     OLED_Refresh();
     delay(500);
 }
+static void  ShowStateWelcom()   //欢迎界面
+{
+  
+}
+static void  ShowSelectMenue01()            //菜单01
+{
+  
+}
+static void ShowSelectMenue02()            //菜单02
+{
+  
+}
+static void ShowSelectMenue03()            //菜单03
+{
+  
+}
+static void ShowSelectMenue04()            //菜单04
+{
+  
+}
+static void ShowSelectMenue05()            //菜单05
+{
+  
+}
 
+static void ShowOsziMode()       //示波器状态
+{
+  
+}
+static void ShowFuncGenMode()    //信号发生器状态
+{
+  
+}
+static void ShowLogicAnMode()     //逻辑分析仪状态
+{
+  
+}
+static void showErrorWindow(){
+  
+}
+
+void loop_oled(){
+  switch(g_nCurrentState){
+      case  StateWelcom:ShowStateWelcom();break;
+      case SelectMenue01:ShowSelectMenue01();break;
+      case SelectMenue02:ShowSelectMenue02();break;
+      case SelectMenue03:ShowSelectMenue03();break;
+      case SelectMenue04:ShowSelectMenue04();break;
+      case SelectMenue05:ShowSelectMenue05();break;
+      
+      case OsziMode:ShowOsziMode();break;
+      case FuncGenMode:ShowFuncGenMode();break;
+      case LogicAnMode:ShowLogicAnMode();break;
+      default:
+      Serial.println("eror state..."); 
+        showErrorWindow();
+      break;
+  }
+  
+
+}
 

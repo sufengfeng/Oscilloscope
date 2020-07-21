@@ -1,6 +1,6 @@
 #include "waves.h"
-
-
+#include "pin_init.h"
+#include "global_param.h"
 //定义8位R2R DA输出的对应值
 int wavedigital[255];
 //定义图形周期
@@ -8,7 +8,7 @@ int cycle;
 //波形模式切换按键
 const int buttonPin = 0;
 //波形常数
-volatile int wave = 0;
+
 
 
 //波形数值生成
@@ -18,7 +18,7 @@ void wagegen()
      float y; 
 
     //正玄波的值
-    if(wave==0)
+    if(g_nWaveType==0)
     { 
        for(int i=0;i<255;i++)
        {
@@ -29,7 +29,7 @@ void wagegen()
      } 
     
     //三角波的值
-    if(wave==1)
+    if(g_nWaveType==1)
     { 
    
          for(int i=0;i<128;i++)
@@ -45,7 +45,7 @@ void wagegen()
           }
      }
   //锯齿波
-  if(wave==2)
+  if(g_nWaveType==2)
     {   
           for(int i=0;i<255;i++)
          {
@@ -56,7 +56,7 @@ void wagegen()
      
      
     //方波值得生成
-    if(wave==3)
+    if(g_nWaveType==3)
     {   
        for(int i=0;i<128;i++)
        {
@@ -72,42 +72,21 @@ void wagegen()
 // 波形选择程序
 void waveSelect() {
  //选择所需波形 0-正玄波 1-三角波 2-锯齿波 3-矩形波
-  wave++;
-  if(wave == 4)
+  g_nWaveType++;
+  if(g_nWaveType == 4)
     {
-     wave=0;
+     g_nWaveType=0;
     }
-    Serial.print( "wave:");
-    Serial.println( wave);
      wagegen();
     delay(3000);
 }
 //波形初始化
 void setup_wave() 
 {  
-     Serial.begin(9600);
-   pinMode(buttonPin, INPUT);     
-    //设置中断程序
-    attachInterrupt(buttonPin, waveSelect, RISING);  
-    
-     //输出端口 0-7
-//     pinMode(0, OUTPUT); 
-//     pinMode(1, OUTPUT); 
-//     pinMode(2, OUTPUT); 
-//     pinMode(3, OUTPUT); 
-//     pinMode(4, OUTPUT); 
-//     pinMode(5, OUTPUT); 
-//     pinMode(6, OUTPUT);
-//     pinMode(7, OUTPUT); 
-    //改变输出信号频率调整完电位器后复位后生效
-     //cycle=int(analogRead(A0)/10)+1;
-     cycle=10000;
-     //默认输出正玄波
-      wave = 0;
      wagegen();
 } 
 
-//循环产生波形
+//循环产生波形，周期不可修改
 void loopwave() 
 { 
 //     if(digitalRead(buttonPin)==1)
@@ -120,7 +99,7 @@ void loopwave()
 //     for (int i=0;i<255;i++) 
 //     { 
           static int i=0;
-          analogWrite(A14, wavedigital[i]);
+          analogWrite(AOUT_PIN, wavedigital[i]);
           i++;
           if (i>=255)i=0;
           
@@ -132,8 +111,15 @@ void loopwave()
 //     }
     //调试模拟量输入的值已决定波形周期
     // Serial.println(cycle); 
-     
-      
+}
+//先选择所需波形 wave：0-正玄波 1-三角波 2-锯齿波 3-矩形波
+//更新波形数据  
+void UpdateWaveDigital(){
+  if(g_bIsUpdateWaveDigital){
+    g_bIsUpdateWaveDigital=false;
+    wagegen();
+    delay(100); 
+  }
     
 }
 
