@@ -18,9 +18,7 @@ void loop() {
   
 //  int outputValue = map(sensorValue, 0, 1023, 0, 255);
 //  analogWrite(analogOutPin, outputValue);
-  //loop_oled();    //oled循环显示
-  
-  loopwave() ;
+  loop_oled();    //oled循环显示
   delay(10);        // delay in between reads for stability
 }
 

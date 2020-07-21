@@ -461,6 +461,7 @@ void loop_oled()
     OLED_ShowString(0,0,"ABC",12);//6*12 “ABC”
     OLED_ShowString(0,12,"ABC",16);//8*16 “ABC”
     OLED_ShowString(0,28,"ABC",24);//12*24 “ABC”
+    OLED_ShowString(10,34,".......",24);//12*24 “ABC”
     OLED_Refresh();
     delay(500);
 }

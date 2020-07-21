@@ -6,7 +6,7 @@ int wavedigital[255];
 //定义图形周期
 int cycle;
 //波形模式切换按键
-const int button = 0;
+const int buttonPin = 0;
 //波形常数
 volatile int wave = 0;
 
@@ -75,8 +75,10 @@ void waveSelect() {
   wave++;
   if(wave == 4)
     {
-     
+     wave=0;
     }
+    Serial.print( "wave:");
+    Serial.println( wave);
      wagegen();
     delay(3000);
 }
@@ -84,19 +86,19 @@ void waveSelect() {
 void setup_wave() 
 {  
      Serial.begin(9600);
-   
+   pinMode(buttonPin, INPUT);     
     //设置中断程序
-    //attachInterrupt(button, waveSelect, RISING);  
-
+    attachInterrupt(buttonPin, waveSelect, RISING);  
+    
      //输出端口 0-7
-     pinMode(0, OUTPUT); 
-     pinMode(1, OUTPUT); 
-     pinMode(2, OUTPUT); 
-     pinMode(3, OUTPUT); 
-     pinMode(4, OUTPUT); 
-     pinMode(5, OUTPUT); 
-     pinMode(6, OUTPUT);
-     pinMode(7, OUTPUT); 
+//     pinMode(0, OUTPUT); 
+//     pinMode(1, OUTPUT); 
+//     pinMode(2, OUTPUT); 
+//     pinMode(3, OUTPUT); 
+//     pinMode(4, OUTPUT); 
+//     pinMode(5, OUTPUT); 
+//     pinMode(6, OUTPUT);
+//     pinMode(7, OUTPUT); 
     //改变输出信号频率调整完电位器后复位后生效
      //cycle=int(analogRead(A0)/10)+1;
      cycle=10000;
@@ -108,22 +110,26 @@ void setup_wave()
 //循环产生波形
 void loopwave() 
 { 
-     if(digitalRead(button)==1)
-     {
-      waveSelect(); 
-     }
+//     if(digitalRead(buttonPin)==1)
+//     {
+//      waveSelect(); 
+//     }
      //增加此句后会影响波形的质量，波形导致失真
      //cycle=int(analogRead(A0)/10)+1;
    
-     for (int i=0;i<255;i++) 
-     { 
+//     for (int i=0;i<255;i++) 
+//     { 
+          static int i=0;
           analogWrite(A14, wavedigital[i]);
+          i++;
+          if (i>=255)i=0;
+          
          //调试各个波形的值
-          Serial.println( wavedigital[i]);
+          //Serial.println( wavedigital[i]);
          //调试波形周期
-          delayMicroseconds(cycle);
+          //delayMicroseconds(cycle);
          // delayMicroseconds(10);
-     }
+//     }
     //调试模拟量输入的值已决定波形周期
     // Serial.println(cycle); 
      
