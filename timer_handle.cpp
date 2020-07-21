@@ -1,6 +1,7 @@
-#include <FlexiTimer2.h>
+#include "FlexiTimer2Advance.h"
 #include "pin_init.h"
 #include "waves.h"
+#include "global_param.h"
 const int LED = LED_BUILTIN;
 
 void UpdateLED(){
@@ -16,16 +17,23 @@ void UpdateLED(){
 int g_nAinValue=0;//  AIn输入信号，用于示波器显示当前值
 void TimerHandle()
 {
+  static uint32_t counter=0;
+  counter++;
+  if(counter>9600/50){      //设定20ms软定时器
+    counter=0;
     UpdateLED();   
-//    int sensorValue =  analogRead(A0);
-//    Serial.println(sensorValue); 
     loopwave() ;//更新波形数据
-
+    
+  }
+  if(g_bEnableLogicAn){
+    digitalRead(DIGITAL_PIN)  ;
+  }
 }
-//设置定时器基准为20ms
+//设置定时器基准为1/9600ms
 void InitTimer(){
     pinMode(LED,OUTPUT);
-    FlexiTimer2::set(20,1.0/1000,TimerHandle);
-    FlexiTimer2::start();
+    //FlexiTimer2Advance::set(20,1000,TimerHandle);//设置1000则，基准为1/1000ms,
+    FlexiTimer2Advance::set(1,9600,TimerHandle);//设置1000则，基准为1/1000ms,
+    FlexiTimer2Advance::start();
 }
 
