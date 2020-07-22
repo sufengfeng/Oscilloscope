@@ -541,12 +541,16 @@ static void ShowSelectMenue05()            //菜单05
 static void ShowOsziMode()       //示波器状态
 {
     OLED_Clear();
-    OLED_ShowString(15,0,"ShowOsziMode",16);
+    OLED_ShowString(15,0,"Oszi Mode",16);
     static uint8_t dataBuf[128];
     memcpy((void*)(dataBuf+1),(void*)dataBuf,127*sizeof(uint8_t));
-    dataBuf[0]== analogRead(AIN_PIN)>3;
+    dataBuf[0]= analogRead(AIN_PIN);
     for(int i=0;i<128;i++){
         OLED_DrawPoint(i,dataBuf[i]);  
+        Serial.print(i); 
+        Serial.print(" ");
+        Serial.println(dataBuf[i]);
+        
     }
     OLED_Refresh();
 }
@@ -568,16 +572,27 @@ static void ShowFuncGenMode()    //信号发生器状态
 }
 static void ShowLogicAnMode()     //逻辑分析仪状态
 {
+  static uint8_t counter=0;
+  counter++;
+  if(counter>10){
+    counter=0;
+  
     OLED_Clear();
-    OLED_ShowString(15,0,"ShowLogicAnMode",16);
-    static uint8_t dataBuf[10];
+    OLED_ShowString(15,0,"LogicAn. Mode",16);
+    static uint8_t dataBuf[128];
     memcpy((void*)(dataBuf+1),(void*)dataBuf,127*sizeof(uint8_t));
-    dataBuf[0]== digitalRead(DIGITAL_PIN)>3;
-    for(int i=0;i<10;i++){
-        //OLED_DrawPoint(j,dataBuf[j]);  
-        OLED_ShowChar(48,12*i,dataBuf[i],16);//显示ASCII字符    
-      }
+    dataBuf[0]= digitalRead(DIGITAL_PIN);
+    for(int i=1;i<5;i++){
+      for(int j=0;j<21;j++){
+        OLED_ShowChar(6*j,12*i+4,dataBuf[j+21*i]+'0',12);//显示ASCII字符    
+        Serial.print(i); 
+        Serial.print(" ");
+        Serial.println(dataBuf[i]);
+      }  
+    }
+
     OLED_Refresh();
+   }
 }
 static void showErrorWindow(){
   

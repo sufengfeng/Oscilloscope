@@ -19,8 +19,6 @@ void loop() {
   UpdateWaveDigital();    //根据需要更新波形数据
   MechineSateLoop();      //状态机维护
   delay(10);              // delay in between reads for stability
-  static  uint32_t  i=0;
-  
-  Serial.println("_running..."); 
+  //Serial.println("_running..."); 
 }
 

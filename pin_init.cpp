@@ -7,8 +7,9 @@ void ButtonDownHandle(){
 //初始化所有IO口
 void InitPins(){
   pinMode(BUTTON_PIN, INPUT);     
-  attachInterrupt(BUTTON_PIN, ButtonDownHandle, RISING);  
-  
+  //attachInterrupt(BUTTON_PIN, ButtonDownHandle, RISING);  
+  pinMode(DIGITAL_PIN, INPUT);     
+  //attachInterrupt(DIGITAL_PIN, ButtonDownHandle, RISING);  
 }
 
 ////ADC输入
