@@ -1,8 +1,7 @@
 #include "waves.h"
 #include "pin_init.h"
 #include "global_param.h"
-//定义8位R2R DA输出的对应值
-int wavedigital[255];
+
 //定义图形周期
 int cycle;
 //波形模式切换按键
@@ -17,14 +16,15 @@ void wagegen()
      float x; 
      float y; 
 
-    //正玄波的值
-    if(g_nWaveType==0)
+    
+    //锯齿波
+    if(g_nWaveType==2)
     { 
        for(int i=0;i<255;i++)
        {
           x=(float)i;
           y=sin((x/255)*2*PI);
-          wavedigital[i]=int(y*128)+128;
+          g_aWavedigital[i]=int(y*128)+128;
        }
      } 
     
@@ -35,37 +35,37 @@ void wagegen()
          for(int i=0;i<128;i++)
          {
           x=(float)i;
-          wavedigital[i]=int(2*x);       
+          g_aWavedigital[i]=int(2*x);       
          }
  
          for(int i=128;i<255;i++)
          {
           x=(float)i;
-          wavedigital[i]=255-int((x-128)*2);              
+          g_aWavedigital[i]=255-int((x-128)*2);              
           }
      }
-  //锯齿波
-  if(g_nWaveType==2)
+  //正玄波的值
+  if(g_nWaveType==3)
     {   
           for(int i=0;i<255;i++)
          {
           x=(float)i;
-          wavedigital[i]=x;       
+          g_aWavedigital[i]=x;       
           }   
     }
      
      
     //方波值得生成
-    if(g_nWaveType==3)
+    if(g_nWaveType==0)
     {   
        for(int i=0;i<128;i++)
        {
-         wavedigital[i]=255;      
+         g_aWavedigital[i]=255;      
        }
  
         for(int i=128;i<255;i++)
         {
-          wavedigital[i]=0;
+          g_aWavedigital[i]=0;
          }  
      }
 }
@@ -99,12 +99,12 @@ void loopwave()
 //     for (int i=0;i<255;i++) 
 //     { 
           static int i=0;
-          analogWrite(AOUT_PIN, wavedigital[i]);
+          analogWrite(AOUT_PIN, g_aWavedigital[i]);
           i++;
           if (i>=255)i=0;
           
          //调试各个波形的值
-          //Serial.println( wavedigital[i]);
+          //Serial.println( g_aWavedigital[i]);
          //调试波形周期
           //delayMicroseconds(cycle);
          // delayMicroseconds(10);

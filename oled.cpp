@@ -539,15 +539,31 @@ static void ShowSelectMenue05()            //菜单05
 
 static void ShowOsziMode()       //示波器状态
 {
-  
+    OLED_Clear();
+    OLED_ShowString(3,0,"ShowOsziMode",24);
+    OLED_Refresh();
 }
 static void ShowFuncGenMode()    //信号发生器状态
 {
+      OLED_Clear();
+      OLED_ShowString(15,0,"FuncGen Mode",16);
+      int dataBuf[255];
+      memcpy((void*)dataBuf,(void*)(g_aWavedigital+128),128*sizeof(int));
+      memcpy((void*)(dataBuf+128),(void*)g_aWavedigital,128*sizeof(int));
+      for(int i=0;i<4;i++){
+          for(int j=0;j<255;){
+            OLED_DrawPoint(j/8+32*i,dataBuf[j]/8+20);  
+            j=j+8;
+          }
+      }
+      OLED_Refresh();
   
 }
 static void ShowLogicAnMode()     //逻辑分析仪状态
 {
-  
+  OLED_Clear();
+    OLED_ShowString(3,0,"ShowLogicAnMode",24);
+    OLED_Refresh();
 }
 static void showErrorWindow(){
   

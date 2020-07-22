@@ -15,14 +15,16 @@ void UpdateLED(){
   }
 }
 int g_nAinValue=0;//  AIn输入信号，用于示波器显示当前值
+
 void TimerHandle()
 {
   static uint32_t counter=0;
   counter++;
   if(counter>9600/50){      //设定20ms软定时器
     counter=0;
-    UpdateLED();   
-    loopwave() ;//更新波形数据
+    UpdateLED();                    //LED闪烁
+    g_tTimer20ms=!g_tTimer20ms;     //用于准确定时的全局变量
+    loopwave() ;                    //更新实时波形数据
     
   }
   if(g_bEnableLogicAn){     //使能逻辑分析仪   小端模式，高位在前，低位在后

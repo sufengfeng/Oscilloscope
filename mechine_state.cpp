@@ -3,8 +3,27 @@
 #include "pin_init.h"
 #include "global_param.h"
 
-
-
+//软件消抖，判断上升沿信号
+bool IsRising(){
+  
+  static int lastLineSate=0;
+  static int counter=0;
+//  Serial.println(lastLineSate);       
+//  Serial.println(counter);     
+  counter++;
+  if(counter>10){
+    lastLineSate=digitalRead(BUTTON_PIN);
+    counter=0;
+  }
+  int currentLineSate=digitalRead(BUTTON_PIN);//  当前状态
+  if(lastLineSate==0&&currentLineSate==1){
+    lastLineSate=1;
+    counter=0;
+    return true;
+  }
+  else
+    return false;
+}
 //主程序中维护状态机，用于人机交互
 void MechineSateLoop(){
   //根据是否在SelectMenue状态下，进行一些安全的强制状态锁定
@@ -27,7 +46,7 @@ void MechineSateLoop(){
   
   switch(g_nCurrentState){
     case StateWelcom:
-      if(digitalRead(BUTTON_PIN)==1)//按键按下，切换状态
+      if(IsRising()==1)//按键按下，切换状态
       {
         g_nCurrentState=SelectMenue01;    
         Serial.print("change state:"); 
@@ -35,7 +54,7 @@ void MechineSateLoop(){
       }
       break;
     case SelectMenue01:
-            if(digitalRead(BUTTON_PIN)==1)     //按键按下，进入示波器状态
+            if(IsRising()==1)     //按键按下，进入示波器状态
             {
               Serial.print("change state:"); 
               Serial.println(g_nCurrentState);       
@@ -43,7 +62,7 @@ void MechineSateLoop(){
             }
         break;
     case SelectMenue02:
-            if(digitalRead(BUTTON_PIN)==1)     //按键按下，进入信号发生状态
+            if(IsRising()==1)     //按键按下，进入信号发生状态
               {
                 g_nCurrentState=FuncGenMode;   
                 Serial.print("change state:"); 
@@ -55,7 +74,7 @@ void MechineSateLoop(){
               }
         break;
     case SelectMenue03:
-          if(digitalRead(BUTTON_PIN)==1)     //按键按下，进入信号发生状态
+          if(IsRising()==1)     //按键按下，进入信号发生状态
             {
               g_nCurrentState=FuncGenMode;      
               Serial.print("change state:"); 
@@ -68,7 +87,7 @@ void MechineSateLoop(){
           
         break;
     case SelectMenue04:
-           if(digitalRead(BUTTON_PIN)==1)     //按键按下，进入信号发生状态
+           if(IsRising()==1)     //按键按下，进入信号发生状态
              {
                 g_nCurrentState=FuncGenMode;        
                 Serial.print("change state:"); 
@@ -80,7 +99,7 @@ void MechineSateLoop(){
              }
         break;
     case SelectMenue05:
-          if(digitalRead(BUTTON_PIN)==1)     //按键按下，进入逻辑分析仪
+          if(IsRising()==1)     //按键按下，进入逻辑分析仪
             {
                 g_nCurrentState=LogicAnMode;        
                 g_bEnableLogicAn=true;
@@ -92,12 +111,13 @@ void MechineSateLoop(){
     case OsziMode:
     case FuncGenMode:
     case LogicAnMode:
-        if(digitalRead(BUTTON_PIN)==1)     //按键按下，切换状态
+        if(IsRising()==1)     //按键按下，切换状态
         {
             g_nCurrentState=SelectMenue01;        
             Serial.print("change state:"); 
             Serial.println(g_nCurrentState); 
         }
+
         break;
     default:{
             g_nCurrentState=StateWelcom;

@@ -18,6 +18,10 @@ void loop() {
   loop_oled();    //oled循环显示
   UpdateWaveDigital();    //根据需要更新波形数据
   MechineSateLoop();      //状态机维护
-  delay(1);              // delay in between reads for stability
+  delay(10);              // delay in between reads for stability
+  static  uint32_t  i=0;
+  int sensorValue = analogRead(A1);
+  Serial.print(sensorValue); 
+  Serial.println("_running..."); 
 }
 

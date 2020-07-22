@@ -8,6 +8,7 @@ void ButtonDownHandle(){
 void InitPins(){
   pinMode(BUTTON_PIN, INPUT);     
   attachInterrupt(BUTTON_PIN, ButtonDownHandle, RISING);  
+  
 }
 
 ////ADC输入
