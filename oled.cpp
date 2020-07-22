@@ -536,11 +536,18 @@ static void ShowSelectMenue05()            //菜单05
 //      OLED_ShowString(10,SPACEY*6+4,"",12);
     OLED_Refresh();
 }
-
+#include "pin_init.h"
+//读取并刷新页面
 static void ShowOsziMode()       //示波器状态
 {
     OLED_Clear();
-    OLED_ShowString(3,0,"ShowOsziMode",24);
+    OLED_ShowString(15,0,"ShowOsziMode",16);
+    static uint8_t dataBuf[128];
+    memcpy((void*)(dataBuf+1),(void*)dataBuf,127*sizeof(uint8_t));
+    dataBuf[0]== analogRead(AIN_PIN)>3;
+    for(int i=0;i<128;i++){
+        OLED_DrawPoint(i,dataBuf[i]);  
+    }
     OLED_Refresh();
 }
 static void ShowFuncGenMode()    //信号发生器状态
@@ -561,8 +568,15 @@ static void ShowFuncGenMode()    //信号发生器状态
 }
 static void ShowLogicAnMode()     //逻辑分析仪状态
 {
-  OLED_Clear();
-    OLED_ShowString(3,0,"ShowLogicAnMode",24);
+    OLED_Clear();
+    OLED_ShowString(15,0,"ShowLogicAnMode",16);
+    static uint8_t dataBuf[10];
+    memcpy((void*)(dataBuf+1),(void*)dataBuf,127*sizeof(uint8_t));
+    dataBuf[0]== digitalRead(DIGITAL_PIN)>3;
+    for(int i=0;i<10;i++){
+        //OLED_DrawPoint(j,dataBuf[j]);  
+        OLED_ShowChar(48,12*i,dataBuf[i],16);//显示ASCII字符    
+      }
     OLED_Refresh();
 }
 static void showErrorWindow(){

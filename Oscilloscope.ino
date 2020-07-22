@@ -20,8 +20,7 @@ void loop() {
   MechineSateLoop();      //状态机维护
   delay(10);              // delay in between reads for stability
   static  uint32_t  i=0;
-  int sensorValue = analogRead(A1);
-  Serial.print(sensorValue); 
+  
   Serial.println("_running..."); 
 }
 
